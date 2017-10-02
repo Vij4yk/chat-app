@@ -16,6 +16,16 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User Disconnected');
    });
+
+   socket.on('createMassage', (newMassage) => {
+       console.log('massage created', newMassage);
+   })
+
+   socket.emit('newMassage', {
+        createdAt: 12-30,
+        from: "racker",
+        text: "Hey. Everyone"
+   });
 })
 
 const port = process.env.PORT || 3000;
