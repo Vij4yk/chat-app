@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
+const {generateMessage} = require('./utils/massage');
 
 const publicPath = path.join( __dirname, '/../public');
 
@@ -16,25 +17,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User was disconnected');
     });
-    socket.emit('newMessage', {
-        from: 'Admin',
-        text: 'Welcome to the Batch-tour Chat App',
-        createdAt: new Date().getTime()  
-     });
-    socket.broadcast.emit('newMessage', {
-        from: 'Admin',
-        text: 'New user just connected',
-        createdAt: new Date().getTime()     
-    });
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user just connected'));
 
     socket.on('createMessage', (message) => {
        console.log('massage created', message);
 
-       io.emit('newMessage', {
-            from: message.from,
-            text: message.text,
-            createdAt: new Date().getTime()
-       });
+       io.emit('newMessage', generateMessage(message.from, message.text));
    });
 
 })
