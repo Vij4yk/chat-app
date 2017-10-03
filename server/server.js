@@ -16,6 +16,16 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User was disconnected');
     });
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'Welcome to the Batch-tour Chat App',
+        createdAt: new Date().getTime()  
+     });
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New user just connected',
+        createdAt: new Date().getTime()     
+    });
 
     socket.on('createMessage', (message) => {
        console.log('massage created', message);
