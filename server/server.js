@@ -14,18 +14,19 @@ io.on('connection', (socket) => {
     console.log('New user connected');
 
     socket.on('disconnect', () => {
-        console.log('User Disconnected');
+        console.log('User was disconnected');
+    });
+
+    socket.on('createMessage', (message) => {
+       console.log('massage created', message);
+
+       io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+       });
    });
 
-   socket.on('createMassage', (newMassage) => {
-       console.log('massage created', newMassage);
-   })
-
-   socket.emit('newMassage', {
-        createdAt: 12-30,
-        from: "racker",
-        text: "Hey. Everyone"
-   });
 })
 
 const port = process.env.PORT || 3000;
