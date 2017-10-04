@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
-const {generateMessage} = require('./utils/massage');
+const {generateMessage, generateLocationMessage} = require('./utils/massage');
 
 const publicPath = path.join( __dirname, '/../public');
 
@@ -19,6 +19,10 @@ io.on('connection', (socket) => {
     });
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user just connected'));
+
+    socket.on('createLocationMessage', (coords) => {
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    })
 
     socket.on('createMessage', (message, callback) => {
        console.log('massage created', message);

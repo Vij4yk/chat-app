@@ -18,6 +18,16 @@ socket.on('newMessage', function(message){
     $('#messages').append(li);
 });
 
+socket.on('newLocationMessage', function(message){
+    var li = $("<li></li>");
+    var a = $('<a target="_blank">My Current Location</a>');
+    
+    li.text(`${message.from}: `);
+    a.attr('href', message.url);
+    
+    li.append(a);
+    $('#messages').append(li);
+})
 
 jQuery('#massage-form').on('submit', function(e) {
     e.preventDefault();
@@ -27,5 +37,22 @@ jQuery('#massage-form').on('submit', function(e) {
         text: $("input[name='message']").val()
     }, function(){
 
+    });
+});
+
+var locationButton = $('#send-location');  
+
+locationButton.on('click', function(){
+    if(!navigator.geolocation){
+        return alert('Geolocation not supported by your browser!!!');
+    }
+
+    navigator.geolocation.getCurrentPosition( function(postiton){
+        socket.emit('createLocationMessage', {
+            latitude: postiton.coords.latitude,
+            longitude: postiton.coords.longitude
+        });
+    }, function(){
+        alert('Unable to fetch login.')
     });
 });
