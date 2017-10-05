@@ -86,7 +86,6 @@ jQuery('#massage-form').on('submit', function(e) {
     var messageTextbox = $("input[name='message']");
 
     socket.emit('createMessage', {
-        from: 'User',
         text: messageTextbox.val()
     }, function(){
         messageTextbox.val('')
