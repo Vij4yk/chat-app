@@ -18,8 +18,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User was disconnected');
     });
-    socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
-    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user just connected'));
 
     socket.on('createLocationMessage', (coords) => {
         io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
