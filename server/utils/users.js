@@ -7,6 +7,7 @@ class Users{
         this.users.push(user);
         return user;
     }
+  
     removeUser(id){
         var user = this.getUser(id);
         
@@ -23,6 +24,7 @@ class Users{
         var namesArray = users.map((user) => user.name);
         return namesArray;
     }
+
 }
 
 

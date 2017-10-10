@@ -15,6 +15,7 @@ var io = socketIO(server);
 var users = new Users();
 io.on('connection', (socket) => {
     console.log('New user connected');
+   
 
     socket.on('disconnect', () => {
         var user = users.removeUser(socket.id);
@@ -49,13 +50,13 @@ io.on('connection', (socket) => {
         }
         socket.join(params.room);
         users.removeUser(socket.id);
-        users.addUser(socket.id, params.name, params.room);
-        io.to(params.room).emit('updateUserList', users.getUserList(params.room));
+        users.addUser(socket.id, params.name, params.room);    
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
 
         callback();
     });
+    
 
     
 
